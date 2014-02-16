@@ -29,5 +29,5 @@ class SublimeElhuyarCommand(sublime_plugin.TextCommand):
         data_end_tag = '</strong></dt>'
         data_start_pos = file_handle_str.index(data_tag) + len(data_tag)
         data_end_pos = file_handle_str.index(data_end_tag)
-        translation = file_handle_str[data_start_pos:data_end_pos]
+        translation = file_handle_str[data_start_pos:data_end_pos].strip()
         return translation
