@@ -25,9 +25,9 @@ class SublimeElhuyarCommand(sublime_plugin.TextCommand):
 
         # The translation is inside the tag <dt class="ordaina" lang="es"><strong></strong></dt>
         # We parse the HTML file to find that tag
-        data_tag = '<dt class="ordaina" lang="es"><strong>'
+        data_start_tag = '<dt class="ordaina" lang="es"><strong>'
         data_end_tag = '</strong></dt>'
-        data_start_pos = file_handle_str.index(data_tag) + len(data_tag)
+        data_start_pos = file_handle_str.index(data_start_tag) + len(data_start_tag)
         data_end_pos = file_handle_str.index(data_end_tag)
         translation = file_handle_str[data_start_pos:data_end_pos].strip()
         return translation
