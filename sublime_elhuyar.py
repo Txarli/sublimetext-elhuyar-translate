@@ -1,6 +1,6 @@
 import sublime, sublime_plugin
 import urllib.request
-from html.parser import HTMLParser
+from xml import etree
 
 class SublimeElhuyarCommand(sublime_plugin.TextCommand):
     def run(self, edit):
@@ -11,9 +11,9 @@ class SublimeElhuyarCommand(sublime_plugin.TextCommand):
                 word = self.view.substr(sel)
                 position = sel.end()
 
-        string_to_write = ' --> ' + self.getElhuyarTranslation(word)
-
-        self.view.insert(edit, position, string_to_write)
+        #string_to_write = ' --> ' + self.getElhuyarTranslation(word)
+        self.getElhuyarTranslation(word)
+        #self.view.insert(edit, position, string_to_write)
 
     def getElhuyarTranslation(self, word):
         # We create the url string to use the Elhuyar api
@@ -26,7 +26,14 @@ class SublimeElhuyarCommand(sublime_plugin.TextCommand):
 
         # The translation is inside the tag <dt class="ordaina" lang="es"><strong></strong></dt>
         # We parse the HTML file to find that tag
-        dt_position = file_handle_str.find('<dt class="ordaina" lang="es">') + 38
-        strong_close_position = file_handle_str.find('</strong>')
-        return file_handle_str[dt_position:strong_close_position]
-
+        html = 1
+        target = None
+        encoding = 'utf-8'
+        parser = etree.XMLParser(recover=True)
+        parser.entity["nbsp"] = chr(160)
+        parser.feed(file_handle_str)
+        parser.close()
+        tree = etree.fromstring(file_handle_str, parser=parser)
+        dt = tree.find("dt/strong")
+        print(dt.text())
+        return dt.text()
