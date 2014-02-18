@@ -1,4 +1,4 @@
 [
-    { "caption": "Sublime Elhuyar: Change source to Spanish", "command": "sublime_elhuyar" },
-    { "caption": "Sublime Elhuyar: Change source to Basque", "command": "sublime_elhuyar" }
+    { "caption": "Sublime Elhuyar: Change source to Spanish", "command": "change_to_spanish" },
+    { "caption": "Sublime Elhuyar: Change source to Basque", "command": "change_to_basque" }
 ]

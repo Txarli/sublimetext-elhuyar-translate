@@ -2,6 +2,14 @@ import sublime, sublime_plugin
 import urllib.request as request
 import contextlib
 
+LANGUAGE_SETTING_NAME = 'Language'
+BASQUE_URL_NAME = 'E'
+SPANISH_URL_NAME = 'G'
+
+def change_language(view, language):
+    view_settings = view.settings()
+    view_settings.set(LANGUAGE_SETTING_NAME, language)
+
 class SublimeElhuyarCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         sels = self.view.sel()
@@ -16,7 +24,8 @@ class SublimeElhuyarCommand(sublime_plugin.TextCommand):
 
     def getElhuyarTranslation(self, word):
         # We create the url string to use the Elhuyar api
-        url_str = 'http://www.euskara.euskadi.net/r59-15172x/eu/hizt_el/emaitza.asp?sarrera=' + word + '&mota=sarrera&term_hizkuntza=G&aplik_hizkuntza='
+        language = self.view.settings().get(LANGUAGE_SETTING_NAME)
+        url_str = 'http://www.euskara.euskadi.net/r59-15172x/eu/hizt_el/emaitza.asp?sarrera=' + word + '&mota=sarrera&term_hizkuntza=' + language + '&aplik_hizkuntza='
 
         # We open and save to a string the url
         with contextlib.closing(request.urlopen(url_str)) as file_handle:
@@ -31,3 +40,16 @@ class SublimeElhuyarCommand(sublime_plugin.TextCommand):
         data_end_pos = file_handle_str.index(data_end_tag)
         translation = file_handle_str[data_start_pos:data_end_pos].strip()
         return translation
+
+class ChangeToBasqueCommand(sublime_plugin.TextCommand):
+    """docstring for SourceBasqueCommand"""
+    def run(self, edit):
+        change_language(self.view, BASQUE_URL_NAME)
+        print ('Source language changed to Basque')
+
+class ChangeToSpanishCommand(sublime_plugin.TextCommand):
+    """docstring for SourceBasqueCommand"""
+    def run(self, edit):
+        change_language(self.view, SPANISH_URL_NAME)
+        print ('Source language changed to Spanish')
+
