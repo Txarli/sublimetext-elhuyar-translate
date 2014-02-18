@@ -52,8 +52,7 @@ class SublimeElhuyarCommand(sublime_plugin.TextCommand):
                 return parse_elhuyar_translation(file_handle_str)
             print (type(file_handle_str))
         except http_error as e:
-            error = e.read().decode("latin-1")
-            sublime.error_message(error)
+            sublime.error_message("Server error. Does that word exist?")
             return None
 
     def parse_elhuyar_translation(self, source):
