@@ -2,15 +2,28 @@ import sublime, sublime_plugin
 import urllib.request as request
 import contextlib
 
+'''
+    Parameter definitions
+'''
+# The name the source language setting has
 LANGUAGE_SETTING_NAME = 'Language'
+
+# The letters that should appear in the Elhuyar url for the source language
 BASQUE_URL_NAME = 'E'
 SPANISH_URL_NAME = 'G'
 
+'''
+    Global functions
+'''
 def change_language(view, language):
     view_settings = view.settings()
     view_settings.set(LANGUAGE_SETTING_NAME, language)
 
+'''
+    Plugin commands
+'''
 class SublimeElhuyarCommand(sublime_plugin.TextCommand):
+    '''Command that performs the request to the Elhuyar dictionary'''
     def run(self, edit):
         sels = self.view.sel()
         word = []
@@ -42,13 +55,13 @@ class SublimeElhuyarCommand(sublime_plugin.TextCommand):
         return translation
 
 class ChangeToBasqueCommand(sublime_plugin.TextCommand):
-    """docstring for SourceBasqueCommand"""
+    """Command that change source language to Basque"""
     def run(self, edit):
         change_language(self.view, BASQUE_URL_NAME)
         print ('Source language changed to Basque')
 
 class ChangeToSpanishCommand(sublime_plugin.TextCommand):
-    """docstring for SourceBasqueCommand"""
+    """Command that change source language to Spanish"""
     def run(self, edit):
         change_language(self.view, SPANISH_URL_NAME)
         print ('Source language changed to Spanish')
